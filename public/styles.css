@@ -18,6 +18,7 @@
     margin: auto -16px;
     padding: 16px 32px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    display: flex;
   }
   
   header h1 {
@@ -26,6 +27,12 @@
     font-weight: 200;
   }
   
+  header img {
+    border-radius: 10px;
+    height: 50px;
+    margin-right: 17px;
+  }
+
   footer {
     position: absolute;
     text-align: center;
