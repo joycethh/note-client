@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
 import Note from "./component/Note";
@@ -6,32 +7,24 @@ import CreateArea from "./component/CreateArea";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
+  useEffect(() => {
+    const fetchNotes = async () => {
+      const response = await axios.get("http://localhost:4000/");
+      const data = await response.data;
+      setNotes(data);
+    };
 
-  const addNote = (newNote) => {
-    setNotes([newNote, ...notes]);
-  };
-
-  const deleteNote = (id) => {
-    const newNoteArray = [...notes];
-    newNoteArray.splice(id, 1);
-    setNotes(newNoteArray);
-  };
+    fetchNotes();
+  }, []);
 
   return (
     <div>
       <Header />
-      <CreateArea onAdd={addNote} />
-      {notes.map((noteItem, index) => {
-        return (
-          <Note
-            key={index}
-            id={index}
-            title={noteItem.title}
-            content={noteItem.content}
-            onDelete={deleteNote}
-          />
-        );
-      })}
+      <CreateArea />
+      {notes &&
+        notes.map((noteItem) => (
+          <Note noteItem={noteItem} key={noteItem._id} />
+        ))}
       <Footer />
     </div>
   );
