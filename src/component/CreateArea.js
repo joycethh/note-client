@@ -35,15 +35,9 @@ const CreateArea = () => {
     });
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSumbit();
-    }
-  };
-
   return (
     <div>
-      <form className="create-note" onKeyDown={handleKeyDown}>
+      <form className="create-note">
         <input
           name="title"
           onChange={handleChange}
