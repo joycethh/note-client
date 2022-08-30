@@ -9,11 +9,8 @@ const Note = ({ noteItem }) => {
     const response = await axios.delete(
       `http://localhost:4000/${noteItem._id}`
     );
-    console.log("response", response);
-    console.log("respnse data/id", response.data);
-    if (response.status === 200) {
-      console.log("the note is deleted");
 
+    if (response.status === 200) {
       dispatch({ type: "DELETE", payload: response.data });
     }
   };
