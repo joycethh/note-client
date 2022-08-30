@@ -15,7 +15,9 @@ export const noteReducer = (state, action) => {
         notes: [action.payload, ...state.notes], //console.log the state, it will contain notes object
       };
     case "DELETE":
-      return state.filter((note) => note._id !== action.payload); // id?
+      return {
+        notes: state.notes.filter((note) => note._id !== action.payload),
+      }; // backend send seleted note id as data directly
     default:
       return state;
   }
