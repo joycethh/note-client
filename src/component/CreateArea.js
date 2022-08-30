@@ -23,7 +23,10 @@ const CreateArea = () => {
     const newNote = userInput;
 
     //send api post request
-    const response = await axios.post("http://localhost:4000/", newNote);
+    const response = await axios.post(
+      "https://note-app.herokuapp.com/",
+      newNote
+    );
 
     //add new step: dispatch the reducr function
     dispatch({ type: "CREATE", payload: response.data });

@@ -15,7 +15,7 @@ const App = () => {
 
   useEffect(() => {
     const fetchNotes = async () => {
-      const response = await axios.get("http://localhost:4000/");
+      const response = await axios.get("https://note-app.herokuapp.com/");
       const data = await response.data;
       dispatch({ type: "FETCH", payload: data });
     };
