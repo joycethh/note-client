@@ -11,7 +11,9 @@ export const noteReducer = (state, action) => {
         notes: action.payload,
       };
     case "CREATE":
-      return [...state, action.payload];
+      return {
+        notes: [action.payload, ...state.notes], //console.log the state, it will contain notes object
+      };
     case "DELETE":
       return state.filter((note) => note._id !== action.payload); // id?
     default:

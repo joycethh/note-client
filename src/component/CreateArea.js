@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 
+import { useNotesContext } from "./context/useNoteContext";
+
 const CreateArea = () => {
+  const { dispatch } = useNotesContext();
+
   const [userInput, setUserInput] = useState({
     title: "",
     content: "",
@@ -20,7 +24,9 @@ const CreateArea = () => {
 
     //send api post request
     const response = await axios.post("http://localhost:4000/", newNote);
-    console.log(response);
+
+    //add new step: dispatch the reducr function
+    dispatch({ type: "CREATE", payload: response.data });
 
     //set the userInput to empty filded after new note added;
     setUserInput({
