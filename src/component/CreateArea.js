@@ -1,61 +1,56 @@
+import axios from "axios";
 import React, { useState } from "react";
 
-const CreateArea = (props) => {
+import { useNotesContext } from "./context/useNoteContext";
+
+const CreateArea = () => {
+  const { dispatch } = useNotesContext();
+
   const [userInput, setUserInput] = useState({
     title: "",
     content: "",
   });
-  const [isExpanded, setExpanded] = useState(false);
-
-  const handleExpand = () => {
-    setExpanded(true);
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserInput({ ...userInput, [name]: value });
   };
 
-  const handleSumbit = (e) => {
+  const handleSumbit = async (e) => {
     e.preventDefault();
-    const inputTitle = userInput.title.trim();
-    const inputContent = userInput.content.trim();
-    if (inputTitle.length === 0 || inputContent.length === 0) {
-      alert("You must input something");
-    } else {
-      props.onAdd(userInput);
-      setUserInput({
-        title: "",
-        content: "",
-      });
-    }
-  };
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSumbit();
-    }
+    //get target value, new note
+    const newNote = userInput;
+
+    //send api post request
+    const response = await axios.post("http://localhost:4000/", newNote);
+
+    //add new step: dispatch the reducr function
+    dispatch({ type: "CREATE", payload: response.data });
+
+    //set the userInput to empty filded after new note added;
+    setUserInput({
+      title: "",
+      content: "",
+    });
   };
 
   return (
     <div>
-      <form className="create-note" onKeyDown={handleKeyDown}>
-        {isExpanded && (
-          <input
-            name="title"
-            onChange={handleChange}
-            value={userInput.title}
-            placeholder="Title"
-          />
-        )}
+      <form className="create-note">
+        <input
+          name="title"
+          onChange={handleChange}
+          value={userInput.title}
+          placeholder="Title"
+        />
 
         <textarea
           name="content"
-          onClick={handleExpand}
           onChange={handleChange}
           value={userInput.content}
           placeholder="Take a note"
-          row={isExpanded ? 3 : 1}
+          row={3}
         />
 
         <div>
