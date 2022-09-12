@@ -10,19 +10,28 @@ import Note from "./component/Note";
 import CreateArea from "./component/CreateArea";
 
 const App = () => {
-  const { notes, dispatch } = useNotesContext();
+  const { isLoading, notes, dispatch } = useNotesContext();
   // const { notes, dispatch } = useContext(NotesContext);
 
   useEffect(() => {
     const fetchNotes = async () => {
+      dispatch({ type: "START-LOADING" });
       const response = await axios.get("https://note-app.herokuapp.com/");
       const data = await response.data;
       dispatch({ type: "FETCH", payload: data });
+      dispatch({ type: "END-LOADING" });
     };
 
     fetchNotes();
   }, [dispatch]);
 
+  if (isLoading) {
+    return (
+      <div>
+        <h2>Loading...</h2>
+      </div>
+    );
+  }
   return (
     <div>
       <Header />

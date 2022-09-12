@@ -4,8 +4,18 @@ import { createContext, useReducer } from "react";
 export const NotesContext = createContext();
 
 //create note reducer
-export const noteReducer = (state, action) => {
+export const noteReducer = (state = { isLoading: true, notes: [] }, action) => {
   switch (action.type) {
+    case "START-LOADING":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "END-LOADING":
+      return {
+        ...state,
+        isLoading: false,
+      };
     case "FETCH":
       return {
         notes: action.payload,
